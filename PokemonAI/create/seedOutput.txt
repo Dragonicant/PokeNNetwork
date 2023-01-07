@@ -1,0 +1,202 @@
+
+Top 100
+zapdos,thunderbolt
+W:5250 D:200 L:1350
+snorlax,seismic-toss
+W:4900 D:250 L:1650
+jolteon,thunderbolt
+W:4800 D:400 L:1600
+magneton,thunderbolt
+W:4650 D:150 L:2000
+lapras,ice-beam
+W:4500 D:450 L:1850
+electabuzz,thunder-punch
+W:4450 D:300 L:2050
+chansey,seismic-toss
+W:4400 D:200 L:2200
+zapdos,thunder
+W:4400 D:350 L:2050
+tauros,body-slam
+W:4350 D:450 L:2000
+vileplume,petal-dance
+W:4300 D:200 L:2300
+exeggutor,psychic
+W:4250 D:450 L:2100
+vaporeon,surf
+W:4250 D:400 L:2150
+lapras,surf
+W:4100 D:400 L:2300
+kangaskhan,body-slam
+W:4100 D:350 L:2350
+alakazam,psychic
+W:4050 D:300 L:2450
+slowbro,psychic
+W:4050 D:300 L:2450
+jolteon,thunder
+W:4000 D:500 L:2300
+electabuzz,thunderbolt
+W:4000 D:400 L:2400
+tauros,double-edge
+W:3900 D:400 L:2500
+slowbro,surf
+W:3850 D:300 L:2650
+magneton,thunder
+W:3850 D:450 L:2500
+aerodactyl,fly
+W:3800 D:450 L:2550
+zapdos,drill-peck
+W:3750 D:150 L:2900
+kangaskhan,double-edge
+W:3660 D:581 L:2252
+aerodactyl,bite
+W:3650 D:450 L:2700
+electrode,thunderbolt
+W:3650 D:500 L:2650
+zapdos,fly
+W:3635 D:492 L:2566
+articuno,ice-beam
+W:3600 D:700 L:2500
+persian,double-edge
+W:3600 D:500 L:2700
+moltres,fire-blast
+W:3585 D:690 L:2418
+starmie,psychic
+W:3550 D:550 L:2700
+raichu,thunderbolt
+W:3486 D:442 L:2664
+golem,seismic-toss
+W:3445 D:99 L:3149
+vaporeon,hydro-pump
+W:3442 D:836 L:2415
+starmie,surf
+W:3400 D:550 L:2850
+rhydon,seismic-toss
+W:3396 D:50 L:3247
+dragonite,thunderbolt
+W:3391 D:295 L:3007
+articuno,fly
+W:3381 D:370 L:2448
+gengar,thunderbolt
+W:3231 D:437 L:2924
+tauros,strength
+W:2922 D:204 L:2693
+slowbro,seismic-toss
+W:2902 D:84 L:3021
+aerodactyl,wing-attack
+W:2815 D:419 L:2678
+kangaskhan,seismic-toss
+W:2767 D:226 L:3206
+omastar,surf
+W:2728 D:205 L:2979
+persian,body-slam
+W:2725 D:385 L:2433
+dragonite,ice-beam
+W:2551 D:522 L:2289
+vaporeon,ice-beam
+W:2535 D:505 L:2064
+lapras,hydro-pump
+W:2520 D:356 L:2311
+dugtrio,earthquake
+W:2484 D:170 L:2619
+gengar,thunder
+W:2473 D:319 L:2481
+kangaskhan,mega-kick
+W:2462 D:597 L:2045
+aerodactyl,sky-attack
+W:2376 D:366 L:2710
+hypno,seismic-toss
+W:2365 D:383 L:2439
+dragonite,thunder
+W:2360 D:607 L:2306
+kangaskhan,strength
+W:2217 D:321 L:2566
+poliwrath,seismic-toss
+W:2167 D:246 L:2691
+kangaskhan,earthquake
+W:2140 D:378 L:2669
+jolteon,body-slam
+W:2115 D:466 L:1993
+aerodactyl,double-edge
+W:2104 D:345 L:2418
+pidgeot,double-edge
+W:2094 D:106 L:2591
+electrode,thunder
+W:2077 D:231 L:1663
+arcanine,fire-blast
+W:2042 D:417 L:2258
+lapras,thunderbolt
+W:2007 D:185 L:2453
+tauros,earthquake
+W:2006 D:274 L:2587
+electabuzz,thunder
+W:2003 D:354 L:1691
+chansey,double-edge
+W:1994 D:67 L:1685
+vaporeon,bubble-beam
+W:1963 D:153 L:2675
+jynx,ice-beam
+W:1946 D:206 L:2072
+omastar,hydro-pump
+W:1921 D:263 L:2533
+exeggutor,mega-drain
+W:1916 D:122 L:2138
+charizard,fire-blast
+W:1856 D:179 L:2409
+jynx,psychic
+W:1834 D:164 L:2332
+raichu,thunder
+W:1810 D:341 L:1750
+dewgong,ice-beam
+W:1803 D:401 L:2181
+dodrio,body-slam
+W:1768 D:219 L:2457
+lapras,thunder
+W:1767 D:293 L:2071
+chansey,body-slam
+W:1753 D:317 L:1676
+blastoise,seismic-toss
+W:1753 D:169 L:2945
+golem,rock-slide
+W:1749 D:55 L:1942
+chansey,strength
+W:1745 D:235 L:1751
+nidoqueen,earthquake
+W:1744 D:174 L:2589
+articuno,blizzard
+W:1734 D:188 L:2408
+onix,rock-slide
+W:1730 D:173 L:1937
+rhydon,rock-slide
+W:1726 D:35 L:1964
+graveler,seismic-toss
+W:1710 D:62 L:2163
+starmie,thunderbolt
+W:1693 D:253 L:2278
+omastar,bubble-beam
+W:1685 D:66 L:2634
+omastar,ice-beam
+W:1671 D:218 L:2242
+blastoise,surf
+W:1667 D:372 L:2535
+charizard,flamethrower
+W:1659 D:250 L:2665
+gloom,petal-dance
+W:1650 D:151 L:2134
+nidoking,earthquake
+W:1646 D:147 L:2592
+golduck,surf
+W:1633 D:162 L:2779
+snorlax,thunderbolt
+W:1618 D:305 L:2165
+exeggutor,solar-beam
+W:1613 D:117 L:2062
+venomoth,leech-life
+W:1606 D:205 L:1935
+gengar,psychic
+W:1596 D:122 L:2789
+jolteon,double-edge
+W:1580 D:265 L:2331
+tentacruel,surf
+W:1570 D:208 L:2729
+rhydon,ice-beam
+W:1557 D:214 L:1967
