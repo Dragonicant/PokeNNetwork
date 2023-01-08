@@ -8,8 +8,14 @@
 
 class Renderer {
 private:
+	int screenWidth;
+	int screenHeight;
+
+	SDL_Window* window;
+	SDL_Renderer* renderer;
 public:
 	Renderer();
+	~Renderer();
 
 	void List(vector<pokemonSeed> vector);
 };

@@ -1,18 +1,24 @@
 #include "renderer.h"
 
 Renderer::Renderer() {
+	screenWidth = int(float(1920) / 1.25); //this "/ 1.25" is specifically bc my screen is set to 125% zoom
+	screenHeight = int(float(1080) / 1.25);
 
+	SDL_Init(SDL_INIT_VIDEO);
+
+	window = SDL_CreateWindow("PokeNNetwork", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_OPENGL);
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+}
+
+Renderer::~Renderer() {
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	IMG_Quit();
+	SDL_Quit();
 }
 
 void Renderer::List(vector<pokemonSeed> vector) {
-	SDL_Init(SDL_INIT_VIDEO);
-
-	int screenWidth = int(float(1920) / 1.25); //this "/ 1.25" is specifically bc my screen is set to 125% zoom
-	int screenHeight = int(float(1080) / 1.25);
-
-	SDL_Window* window = SDL_CreateWindow("PokeNNetwork", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_OPENGL);
-	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
+	
 	std::vector<SDL_Surface*> surfaces;
 	std::vector<SDL_Texture*> textures;
 	std::vector<SDL_Rect> sizes;
@@ -24,10 +30,10 @@ void Renderer::List(vector<pokemonSeed> vector) {
 	else
 		ratio = .75; //multiply width by this number to get height
 	
-	int h = 0;
+	int h = 0;//these are the dimensions that the images will be arrayed with
 	int w = 0;
 	while (h * w < vector.size()) {
-		if (float(w) > float(h) * float(16) / float(9)) {
+		if (float(w) > float(h) * float(16) / float(9)) {//16:9 aspect ratio is what we aim for
 			h++;
 		}
 		else {
@@ -35,6 +41,7 @@ void Renderer::List(vector<pokemonSeed> vector) {
 		}
 	}
 
+	//allocate the positions for each img
 	for (int i = 0; i < vector.size(); i++) {
 		SDL_Rect size;
 		size.w = min(screenHeight / h, screenWidth / w);
@@ -48,31 +55,27 @@ void Renderer::List(vector<pokemonSeed> vector) {
 			surfaces.push_back(IMG_Load(vector.at(i).GetPoke()->getIcon().c_str()));
 	}
 
-
+	//convert the imgs from a surface to a texture
 	for (auto& element : surfaces) {
 		textures.push_back(SDL_CreateTextureFromSurface(renderer, element));
 		SDL_FreeSurface(element);
 	}
 
-
-
-	while (true) {
+	/*while (true) {
 		SDL_Event e;
 		if (SDL_WaitEvent(&e)) {
-			if (e.type == SDL_QUIT) {
+			if (e.type == SDL_QUIT) {//loop only ends when user closes the window
 				break;
 			}
 		}
+	}*/
+	SDL_RenderClear(renderer);
+	for (int i = 0; i < textures.size(); i++)
+		SDL_RenderCopy(renderer, textures.at(i), NULL, &sizes.at(i));
+	SDL_RenderPresent(renderer);
 
-		SDL_RenderClear(renderer);
-		//SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-		for (int i = 0; i < textures.size(); i++) {
-			SDL_RenderCopy(renderer, textures.at(i), NULL, &sizes.at(i));
-			//SDL_RenderDrawRect(renderer, &sizes.at(i));
-		}
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-		SDL_RenderPresent(renderer);
-	}
+	
+	
 
 	SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0, screenWidth, screenHeight, 32, SDL_PIXELFORMAT_ARGB8888);
 	SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, surface->pixels, surface->pitch);
@@ -82,8 +85,4 @@ void Renderer::List(vector<pokemonSeed> vector) {
 
 	for (auto& element : textures)
 		SDL_DestroyTexture(element);
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	IMG_Quit();
-	SDL_Quit();
 }
