@@ -15,6 +15,8 @@ private:
 
 	int battleOutput;
 	int WLOutput;
+	int output;
+
 	int bestOfNum;
 
 	int generation = 1;

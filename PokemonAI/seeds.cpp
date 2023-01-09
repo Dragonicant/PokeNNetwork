@@ -62,7 +62,7 @@ seeds::seeds(Pokemons* pokeList, Moves* moveList, bool load, bool battleOutput, 
 
 void seeds::simulate() {
 	if(output)
-	std::cout << seedList.size() << " competitors!" << endl;
+		std::cout << seedList.size() << " competitors!" << endl;
 
 	int progressN[100];
 	int progressCounter = 0;
@@ -86,7 +86,7 @@ void seeds::simulate() {
 			}
 		}
 		if(output)
-		std::cout << endl;
+			std::cout << endl;
 
 	quickSort(seedList, 0, seedList.size() - 1);
 
@@ -157,18 +157,18 @@ void seeds::Extinct() {
 		if (pokeList->pokemonAtID(i)->isExtinct() == generation) {
 			if (firstExtinctPoke) {
 				if(output)
-				std::cout << "Pokemon that went extinct in generation " << generation << ":" << endl;
+					std::cout << "Pokemon that went extinct in generation " << generation << ":" << endl;
 				firstExtinctPoke = false;
 			}
 			if(output)
-			std::cout << pokeList->pokemonAtID(i)->getName() << endl;
+				std::cout << pokeList->pokemonAtID(i)->getName() << endl;
 		}
 	}
 	for (int i = 1; i <= moveList->getVector().size(); i++) {
 		if (moveList->FindID(i)->isExtinct() == generation) {
 			if (firstExtinctMove) {
 				if(output)
-				std::cout << "Moves that went extinct in generation " << generation << ":" << endl;
+					std::cout << "Moves that went extinct in generation " << generation << ":" << endl;
 				firstExtinctMove = false;
 			}
 			if(output)
