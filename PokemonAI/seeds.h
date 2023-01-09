@@ -20,7 +20,7 @@ private:
 	int generation = 1;
 
 public:
-	seeds(Pokemons* pokeList, Moves* moveList, bool load, bool battleOutput, bool WLOutput, int bestOfNum, int moves);
+	seeds(Pokemons* pokeList, Moves* moveList, bool load, bool battleOutput, bool WLOutput, int bestOfNum, int moves, int output);
 
 	void simulate();
 	void generate();

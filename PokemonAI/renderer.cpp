@@ -11,18 +11,14 @@ Renderer::Renderer() {
 }
 
 Renderer::~Renderer() {
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
 	IMG_Quit();
 	SDL_Quit();
 }
 
 void Renderer::List(vector<pokemonSeed> vector) {
-	
 	std::vector<SDL_Surface*> surfaces;
 	std::vector<SDL_Texture*> textures;
 	std::vector<SDL_Rect> sizes;
-
 
 	float ratio;
 	if (vector.size() < 50)
@@ -75,13 +71,10 @@ void Renderer::List(vector<pokemonSeed> vector) {
 	SDL_RenderPresent(renderer);
 
 	
-	
-
 	SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0, screenWidth, screenHeight, 32, SDL_PIXELFORMAT_ARGB8888);
 	SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, surface->pixels, surface->pitch);
 	IMG_SavePNG(surface, "imgOutput/strongest.jpg");
 	SDL_FreeSurface(surface);
-
 
 	for (auto& element : textures)
 		SDL_DestroyTexture(element);

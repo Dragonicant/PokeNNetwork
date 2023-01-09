@@ -2,9 +2,11 @@
 
 using namespace std;
 
-seeds::seeds(Pokemons* pokeList, Moves* moveList, bool load, bool battleOutput, bool WLOutput, int bestOfNum, int moves) {
+seeds::seeds(Pokemons* pokeList, Moves* moveList, bool load, bool battleOutput, bool WLOutput, int bestOfNum, int moves, int output) {
 	this->battleOutput = battleOutput;
 	this->WLOutput = WLOutput;
+	this->output = output;
+
 	this->bestOfNum = bestOfNum;
 
 	this->pokeList = pokeList;
@@ -59,7 +61,7 @@ seeds::seeds(Pokemons* pokeList, Moves* moveList, bool load, bool battleOutput, 
 }
 
 void seeds::simulate() {
-
+	if(output)
 	std::cout << seedList.size() << " competitors!" << endl;
 
 	int progressN[100];
@@ -74,7 +76,7 @@ void seeds::simulate() {
 			for (int j = 0; j < seedList.size() - i; j++) {
 				battle(&seedList[i], &seedList[j + i]);
 			}
-			if (progressCounter <= 99 && seedList.size() >= 1000) {
+			if (progressCounter <= 99 && seedList.size() >= 1000 && output) {
 				if (i * (seedList.size() + 1) - i * (i + 1) / 2 >= progressN[progressCounter]) {
 					std::cout << progressCounter << "% ";
 					if (progressCounter % 10 == 9)
@@ -83,6 +85,7 @@ void seeds::simulate() {
 				}
 			}
 		}
+		if(output)
 		std::cout << endl;
 
 	quickSort(seedList, 0, seedList.size() - 1);
@@ -153,22 +156,27 @@ void seeds::Extinct() {
 	for (int i = 1; i <= pokeList->numPokes(); i++) {
 		if (pokeList->pokemonAtID(i)->isExtinct() == generation) {
 			if (firstExtinctPoke) {
+				if(output)
 				std::cout << "Pokemon that went extinct in generation " << generation << ":" << endl;
 				firstExtinctPoke = false;
 			}
+			if(output)
 			std::cout << pokeList->pokemonAtID(i)->getName() << endl;
 		}
 	}
 	for (int i = 1; i <= moveList->getVector().size(); i++) {
 		if (moveList->FindID(i)->isExtinct() == generation) {
 			if (firstExtinctMove) {
+				if(output)
 				std::cout << "Moves that went extinct in generation " << generation << ":" << endl;
 				firstExtinctMove = false;
 			}
+			if(output)
 			std::cout << moveList->FindID(i)->getName() << endl;
 		}
 	}
 	if(!firstExtinctMove || !firstExtinctPoke)
+		if(output)
 		std::cout << endl;
 }
 

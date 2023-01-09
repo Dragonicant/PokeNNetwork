@@ -138,7 +138,7 @@ int main() {
 
 	moveList.Disable(165);//struggle; we disable struggle so it doesnt show up in evo data, this shouldnt break anything else
 
-	seeds seedList(&pokeList, &moveList, 0, 0, 0, 3, 1);
+	seeds seedList(&pokeList, &moveList, 0, 0, 0, 3, 1, 0);
 
 	seedList.top100();
 
