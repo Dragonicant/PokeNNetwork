@@ -25,9 +25,12 @@ private:
 	int turnsToxic[2];
 	int turnsAsleep[2];
 	int turnsSlept[2];
-	int trapped[2];
 	int turnsTrapped[2];
 	int turnsTrappedFor[2];
+	int turnsConfused[2];
+	int turnsConfusedFor[2];
+	int turnsLocked[2];
+	int turnsLockedFor[2];
 
 	int lockedMove[2];
 	int movePP[2][4];

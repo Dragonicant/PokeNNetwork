@@ -20,9 +20,12 @@ Battle::Battle(pokemonSeed* pokemonA, pokemonSeed* pokemonB, bool battleOutput) 
 		turnsToxic[i] = 0;
 		turnsSlept[i] = 0;
 		turnsAsleep[i] = 0;
-		trapped[i] = 0;
 		turnsTrapped[i] = 0;
 		turnsTrappedFor[i] = 0;
+		turnsConfused[i] = 0;
+		turnsConfusedFor[i] = 0;
+		turnsLocked[i] = 0;
+		turnsLockedFor[i] = 0;
 		
 
 		stats[i] = pokemon[i]->GetPoke();
@@ -108,12 +111,19 @@ void Battle::Turn() {
 			break;
 		}
 		flinched[i] = 0;
-		if (trapped[i]) {
+		if (turnsTrappedFor[i]) {
 			currentHP[i] -= int(floor(hp[i] / double(8)));
 			turnsTrapped[i]++;
 			if (turnsTrapped[i] == turnsTrappedFor[i]) {
-				trapped[i] = 0;
 				turnsTrapped[i] = 0;
+				turnsTrappedFor[i] = 0;
+			}
+		}
+		if (turnsConfusedFor[i]) {
+			turnsConfused[i]++;
+			if (turnsConfused[i] == turnsConfusedFor[i]) {
+				turnsConfused[i] = 0;
+				turnsConfusedFor[i] = 0;
 			}
 		}
 	}
@@ -130,6 +140,13 @@ void Battle::Move(){
 
 	if (flinched[attacker])
 		return;
+
+	if (turnsConfusedFor[attacker]) {
+		if (rand() % 3 == 0) {
+			currentHP[attacker] -= int(round(round(round(round((((2 * 100 / 5) + 2) * 40 * currentatk(attacker) / currentdef(abs(attacker))) / 50) + 2) * (rand() % 16 + 85) / 100)));
+			return;
+		}
+	}
 
 	if (chosenMove[attacker]->getEffectID() == 84) {//metronome
 		chosenMove[attacker] = pokemon[attacker]->GetMove(rand() % 165); //UPDATE needs to be updated for size of moveList later
@@ -223,6 +240,20 @@ void Battle::Move(){
 		if (accStage[abs(attacker - 1)] > -6)
 			accStage[abs(attacker - 1)]--;
 		return;
+	case 28://petal-dance
+		if (!turnsLocked[attacker]) {
+			lockedMove[attacker] = true;
+			turnsLockedFor[attacker] = rand() % 2 + 2;
+		}
+		else {
+			turnsLocked[attacker]++;
+		}
+		if (turnsLocked[attacker] == turnsLockedFor[attacker]) {
+			turnsLocked[attacker] = 0;
+			turnsLockedFor[attacker] = 0;
+			turnsConfusedFor[attacker] = rand() % 4 + 2;
+		}
+		break;
 	case 30://double-slap, comet-punch, fury-attack, pin-missile, spike-cannon, barrage, fury-swipes
 		if (!hits())
 			return;
@@ -381,8 +412,8 @@ void Battle::Move(){
 		currentHP[abs(attacker - 1)] -= 100;
 		return;
 	case 146://skull-bash
-		if (turnsCharging[attacker] == 0) {
-			lockedMove[attacker] = 1;
+		if (!turnsCharging[attacker]) {
+			lockedMove[attacker] = true;
 			turnsCharging[attacker]++;
 			defStage[attacker]++;
 			if (battleOutput)
@@ -455,10 +486,10 @@ void Battle::Move(){
 			STAB = 1.5;
 
 		if (chosenMove[attacker]->isPhysical()) {//currently factoring: power, base stats, type effectiveness, STAB, moveSpecificMulti
-			damage = int(round(round(round(round(round(round(round((((2 * 100 / 5) + 2) * chosenMove[attacker]->getPower() * currentatk(attacker) / currentdef(abs(attacker-1))) / 50) + 2) * critical) * (rand() % 16 + 85) / 100) * typeEffectiveness(chosenMove[attacker]->getType(), stats[abs(attacker - 1)]->getType(), stats[abs(attacker - 1)]->getType2())) * STAB) * moveSpecificMulti));// *burn;
+			damage = int(round(round(round(round(round(round(round((((2 * 100 / 5) + 2) * chosenMove[attacker]->getPower() * currentatk(attacker) / currentdef(abs(attacker-1))) / 50) + 2) * critical) * (rand() % 16 + 85) / 100) * typeEffectiveness(chosenMove[attacker]->getType(), stats[abs(attacker - 1)]->getType(), stats[abs(attacker - 1)]->getType2())) * STAB) * moveSpecificMulti));
 		}
 		else if (chosenMove[attacker]->isSpecial()) {
-			damage = int(round(round(round(round(round(round(round((((2 * 100 / 5) + 2) * chosenMove[attacker]->getPower() * currentspa(attacker) / currentspd(abs(attacker - 1))) / 50) + 2) * critical) * (rand() % 15 + 85) / 100) * typeEffectiveness(chosenMove[attacker]->getType(), stats[abs(attacker - 1)]->getType(), stats[abs(attacker - 1)]->getType2())) * STAB) * moveSpecificMulti));// *burn;
+			damage = int(round(round(round(round(round(round(round((((2 * 100 / 5) + 2) * chosenMove[attacker]->getPower() * currentspa(attacker) / currentspd(abs(attacker - 1))) / 50) + 2) * critical) * (rand() % 15 + 85) / 100) * typeEffectiveness(chosenMove[attacker]->getType(), stats[abs(attacker - 1)]->getType(), stats[abs(attacker - 1)]->getType2())) * STAB) * moveSpecificMulti));
 		}
 		if (battleOutput)
 			cout << stats[attacker]->getName() << " deals " << damage << " damage to " << stats[abs(attacker - 1)]->getName() << " with " << chosenMove[attacker]->getName() << endl;
@@ -509,7 +540,6 @@ void Battle::Move(){
 		}
 		break;
 	case 43://wrap, bind, fire-spin, clamp
-		trapped[abs(attacker - 1)] = 1;
 		turnsTrapped[abs(attacker - 1)] = rand() % 2 + 4;
 		break;
 	case 49://submission

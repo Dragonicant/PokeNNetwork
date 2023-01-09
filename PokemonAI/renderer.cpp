@@ -21,7 +21,7 @@ void Renderer::List(vector<pokemonSeed> vector) {
 	std::vector<SDL_Rect> sizes;
 
 	float ratio;
-	if (vector.size() < 50)
+	if (vector.size() < 52)
 		ratio = 1;
 	else
 		ratio = .75; //multiply width by this number to get height
@@ -45,7 +45,7 @@ void Renderer::List(vector<pokemonSeed> vector) {
 		size.x = screenWidth / w * (i % int(w)) + (screenWidth - (size.w * w)) / w / 2;
 		size.y = screenHeight / float(h) * int(i % int(pow(max(w, h), 2)) * (float(1) / float(max(w, h)))) + (screenHeight - (size.h * h)) / h / 2;
 		sizes.push_back(size);
-		if(vector.size() < 50)
+		if(vector.size() < 52)
 			surfaces.push_back(IMG_Load(vector.at(i).GetPoke()->getImg().c_str()));
 		else
 			surfaces.push_back(IMG_Load(vector.at(i).GetPoke()->getIcon().c_str()));
