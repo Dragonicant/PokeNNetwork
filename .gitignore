@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/PokemonAI/create/seedOutput.txt
+/PokemonAI/imgOutput/strongest.jpg
+*.jpg
