@@ -2,6 +2,7 @@
 #include "pokemonSeed.h"
 #include "SDL.h"
 #include "SDL_image.h"
+#include "SDL_ttf.h"
 #include <vector>
 
 #undef main
@@ -17,5 +18,5 @@ public:
 
 	void List(vector<pokemonSeed> vector);
 	void ListLong(vector<pokemonSeed> vector);
-	//void ListExtinction(Pokemons* list);
+	void ListExtinction(Pokemons* list, int generations);
 };
