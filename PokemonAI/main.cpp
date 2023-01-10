@@ -152,4 +152,6 @@ int main() {
 	Renderer renderer;
 
 	renderer.List(seedList.getStrongest());
+	renderer.ListLong(seedList.getStrongest());
+	renderer.ListExtinction(&pokeList, 500);
 }
