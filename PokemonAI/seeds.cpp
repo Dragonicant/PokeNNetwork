@@ -103,6 +103,7 @@ void seeds::simulate() {
 	seedSave << "BREAK" << endl;
 }
 void seeds::generate() {
+	simulate();
 	int n = seedList.size() / 4;
 	
 	// +1 power of the top 25%
@@ -127,13 +128,14 @@ void seeds::generate() {
 	for (int i = 0; i < 5; i++) {
 		seedList[i].AddPower();
 	}*/
+	if(output)
+		top100();
 	//reset WLD of every seed
 	for (int i = 0; i < seedList.size(); i++) {
 		seedList[i].ClearWDL();
 	}
 	Extinct();
 	generation++;
-	simulate();
 }
 void seeds::Extinct() {
 	bool firstExtinctPoke = true;
@@ -182,17 +184,17 @@ void seeds::Extinct() {
 
 void seeds::battle(pokemonSeed* pokeA, pokemonSeed* pokeB) {
 	int battleResult = 0;
-	for (int k = 0; k < bestOfNum + 1; k++) {
+	for (int k = 0; k <= bestOfNum; k++) {
 		Battle temp = Battle(pokeA, pokeB, battleOutput);
 		battleResult += temp.getResult();
-		if (battleResult == bestOfNum) {
+		if (battleResult == bestOfNum / 2 + 1) {
 			for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) {
 				pokeA->AddWin();
 				pokeB->AddLose();
 			}
 			return;
 		}
-		if (battleResult == -bestOfNum) {
+		if (battleResult == -(bestOfNum / 2 + 1)) {
 			for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) {
 				pokeA->AddLose();
 				pokeB->AddWin();
@@ -221,21 +223,10 @@ void seeds::battle(pokemonSeed* pokeA, pokemonSeed* pokeB) {
 }
 
 void seeds::top100() {
-	fstream output;
-	output.open("create/seedOutput.txt", ios::out);
-
-	std::cout << endl;
-	output << endl;
 	std::cout << "Top 100" << endl;
-	output << "Top 100" << endl;
-	for (int i = 0; i < min(100, int(seedList.size())); i++) {
+	for (int i = 0; i < min(100, int(seedList.size())); i++)
 		seedList.at(i).PrintSeed();
-		seedList.at(i).PrintSeedFile(&output);
-	}
-
 	std::cout << endl;
-
-	output.close();
 }
 void seeds::showStrongest() {
 	std::cout << "Strongest pokemon of each generation :" << endl;

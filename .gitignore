@@ -366,3 +366,9 @@ FodyWeavers.xsd
 *.jpg
 /PokemonAI/data/seedData
 /PokemonAI/data/seedData.txt
+/PokemonAI/VTune Profiler Results/PokemonAI/PokemonAI.vtuneproj
+/GPUCache/data_0
+/GPUCache/data_1
+/GPUCache/data_2
+/GPUCache/data_3
+/GPUCache/index
