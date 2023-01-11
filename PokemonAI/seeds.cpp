@@ -12,6 +12,8 @@ seeds::seeds(Pokemons* pokeList, Moves* moveList, bool load, bool battleOutput, 
 	this->pokeList = pokeList;
 	this->moveList = moveList;
 
+	seedSave.open("data/seedData", ios::out);
+
 	if (load) {
 		fstream seedLoad;
 
@@ -56,8 +58,9 @@ seeds::seeds(Pokemons* pokeList, Moves* moveList, bool load, bool battleOutput, 
 			}
 		}
 	}
-
-	simulate();
+}
+seeds::~seeds() {
+	seedSave.close();
 }
 
 void seeds::simulate() {
@@ -92,11 +95,7 @@ void seeds::simulate() {
 
 	std::reverse(seedList.begin(), seedList.end());
 
-	fstream seedSave;
-
 	strongest.push_back(seedList[0]);
-
-	seedSave.open("data/seedData", ios::out);
 
 	for (int i = 0; i < seedList.size(); i++) {
 		seedSave << seedList.at(i).GetPoke()->getID() << "," << seedList.at(i).GetMove(0)->getID() << "," << seedList.at(i).GetWin() << "," << seedList.at(i).GetDraw() << "," << seedList.at(i).GetLose() << endl;
