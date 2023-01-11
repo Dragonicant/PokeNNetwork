@@ -365,3 +365,4 @@ FodyWeavers.xsd
 /PokemonAI/imgOutput/strongest.jpg
 *.jpg
 /PokemonAI/data/seedData
+/PokemonAI/data/seedData.txt
