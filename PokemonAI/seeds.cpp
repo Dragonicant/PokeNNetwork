@@ -12,12 +12,12 @@ seeds::seeds(Pokemons* pokeList, Moves* moveList, bool load, bool battleOutput, 
 	this->pokeList = pokeList;
 	this->moveList = moveList;
 
-	seedSave.open("data/seedData", ios::out);
+	seedSave.open("data/seedData.txt", ios::out);
 
 	if (load) {
 		fstream seedLoad;
 
-		seedLoad.open("data/seedData", ios::in);
+		seedLoad.open("data/seedData.txt", ios::in);
 
 		string temp, line, word;
 		vector<string> row;
@@ -100,6 +100,7 @@ void seeds::simulate() {
 	for (int i = 0; i < seedList.size(); i++) {
 		seedSave << seedList.at(i).GetPoke()->getID() << "," << seedList.at(i).GetMove(0)->getID() << "," << seedList.at(i).GetWin() << "," << seedList.at(i).GetDraw() << "," << seedList.at(i).GetLose() << endl;
 	}
+	seedSave << "BREAK" << endl;
 }
 void seeds::generate() {
 	int n = seedList.size() / 4;
