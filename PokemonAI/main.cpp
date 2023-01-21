@@ -138,10 +138,17 @@ int main() {
 
 	moveList.Disable(165);//struggle; we disable struggle so it doesnt show up in evo data, this shouldnt break anything else
 
+
+
 	int generations = 1000;
+	bool load = false;
+	bool battleOutput = false;
+	bool WLOutput = false;
+	int bestOfNum = 3;
+	int moves = 1;
 	bool output = true;
 
-	seeds seedList(&pokeList, &moveList, 0, 0, 0, 3, 1, output);
+	seeds seedList(&pokeList, &moveList, load, battleOutput, WLOutput, bestOfNum, moves, output);
 
 	for(int i = 0; i < generations; i++){
 		seedList.generate();
