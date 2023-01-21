@@ -104,8 +104,9 @@ void seeds::simulate() {
 }
 void seeds::generate() {
 	simulate();
+	if (output)
+		top100();
 	int n = seedList.size() / 4;
-	
 	// +1 power of the top 25%
 	for (int i = 0; i < n; i++) {
 		seedList[i].AddPower();
@@ -128,8 +129,6 @@ void seeds::generate() {
 	for (int i = 0; i < 5; i++) {
 		seedList[i].AddPower();
 	}*/
-	if(output)
-		top100();
 	//reset WLD of every seed
 	for (int i = 0; i < seedList.size(); i++) {
 		seedList[i].ClearWDL();
