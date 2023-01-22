@@ -10,7 +10,7 @@ private:
 
 	Pokemons* pokeList;
 	Moves* moveList;
-	int maxMoveNum = 0;
+	int maxMoveNum;
 
 	vector<pokemonSeed> strongest;
 
