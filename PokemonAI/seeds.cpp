@@ -11,6 +11,11 @@ seeds::seeds(Pokemons* pokeList, Moves* moveList, bool load, bool battleOutput, 
 
 	this->pokeList = pokeList;
 	this->moveList = moveList;
+	this->maxMoveNum = pokeList->pokemonAtID(1)->getMoves().size();
+	for (int i = 2; i <= pokeList->numPokes(); i++)
+		if (!pokeList->pokemonAtID(i)->isDisabled())
+			if (maxMoveNum < pokeList->pokemonAtID(i)->getMoves().size()) 
+				maxMoveNum = pokeList->pokemonAtID(i)->getMoves().size();
 
 	seedSave.open("data/seedData.txt", ios::out);
 

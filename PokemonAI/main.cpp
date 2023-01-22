@@ -103,7 +103,7 @@ void convertFile(string originalFile, string newFile, vector<int> excluded, int 
 int main() {
 
 	bool reloadFiles = false;
-	int genLimit = 6;
+	int genLimit = 1;
 
 	if (reloadFiles) {
 		vector<int> tempVector = { 2, 8, 12, 13, 14 };
