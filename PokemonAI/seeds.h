@@ -11,6 +11,8 @@ private:
 	Pokemons* pokeList;
 	Moves* moveList;
 	int maxMoveNum;
+	unsigned char* battleOutcome;
+	int battleOutcomeIncrement;
 
 	vector<pokemonSeed> strongest;
 
@@ -37,6 +39,6 @@ public:
 	void showStrongest();
 	void listID(int id);
 
-	int GetSize();
+	int size();
 	vector<pokemonSeed> getStrongest();
 };

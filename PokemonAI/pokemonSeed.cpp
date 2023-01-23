@@ -12,7 +12,7 @@ pokemonSeed::pokemonSeed() {
 	moves[2] = 0;
 	moves[3] = 0;
 }
-pokemonSeed::pokemonSeed(Moves* moveList, Pokemons* pokeList, int pokemonID, int moveID) {
+pokemonSeed::pokemonSeed(Moves* moveList, Pokemons* pokeList, int pokemonID, int moveID, int moveNum) {
 	this->moveList = moveList;
 	pokemon = pokeList->pokemonAtID(pokemonID);
 	this->moves = new PokemonMove * [4];
@@ -20,8 +20,9 @@ pokemonSeed::pokemonSeed(Moves* moveList, Pokemons* pokeList, int pokemonID, int
 	moves[1] = 0;
 	moves[2] = 0;
 	moves[3] = 0;
+	moveIndex[0] = moveNum;
 }
-pokemonSeed::pokemonSeed(Moves* moveList, Pokemons* pokeList, int pokemonID, int moveID, int moveID2) {
+/*pokemonSeed::pokemonSeed(Moves* moveList, Pokemons* pokeList, int pokemonID, int moveID, int moveID2) {
 	this->moveList = moveList;
 	pokemon = pokeList->pokemonAtID(pokemonID);
 	this->moves = new PokemonMove * [4];
@@ -29,8 +30,8 @@ pokemonSeed::pokemonSeed(Moves* moveList, Pokemons* pokeList, int pokemonID, int
 	moves[1] = moveList->FindID(moveID2);
 	moves[2] = 0;
 	moves[3] = 0;
-}
-pokemonSeed::pokemonSeed(Moves* moveList, Pokemons* pokeList, int pokemonID, int moveID, int win, int draw, int lose) {
+}*/
+pokemonSeed::pokemonSeed(Moves* moveList, Pokemons* pokeList, int pokemonID, int moveID, int moveNum, int win, int draw, int lose) {
 	this->moveList = moveList;
 	pokemon = pokeList->pokemonAtID(pokemonID);
 	this->moves = new PokemonMove * [4];
@@ -42,7 +43,7 @@ pokemonSeed::pokemonSeed(Moves* moveList, Pokemons* pokeList, int pokemonID, int
 	this->draw = draw;
 	this->lose = lose;
 }
-pokemonSeed::pokemonSeed(Moves* moveList, Pokemons* pokeList, int pokemonID, int moveID, int moveID2, int win, int draw, int lose) {
+/*pokemonSeed::pokemonSeed(Moves* moveList, Pokemons* pokeList, int pokemonID, int moveID, int moveID2, int win, int draw, int lose) {
 	this->moveList = moveList;
 	pokemon = pokeList->pokemonAtID(pokemonID);
 	this->moves = new PokemonMove * [4];
@@ -53,7 +54,7 @@ pokemonSeed::pokemonSeed(Moves* moveList, Pokemons* pokeList, int pokemonID, int
 	this->win = win;
 	this->draw = draw;
 	this->lose = lose;
-}
+}*/
 
 PokemonMove* pokemonSeed::GetMove(int id) {
 	if (id < 1) {
@@ -81,6 +82,9 @@ int pokemonSeed::GetLose() {
 }
 int pokemonSeed::GetPower() {
 	return evoStrength;
+}
+int pokemonSeed::GetMoveIndex(int n) {
+	return moveIndex[n];
 }
 
 void pokemonSeed::AddWin() {

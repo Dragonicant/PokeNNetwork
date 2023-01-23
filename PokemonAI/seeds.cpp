@@ -12,15 +12,13 @@ seeds::seeds(Pokemons* pokeList, Moves* moveList, bool load, bool battleOutput, 
 	this->pokeList = pokeList;
 	this->moveList = moveList;
 	this->maxMoveNum = pokeList->pokemonAtID(1)->getMoves().size();
-	for (int i = 2; i <= pokeList->numPokes(); i++) {
-		if (!pokeList->pokemonAtID(i)->isDisabled()) {
-			if (maxMoveNum < pokeList->pokemonAtID(i)->getMoves().size()) {
-				if (output)
-					cout << pokeList->pokemonAtID(i)->getName() << " has " << pokeList->pokemonAtID(i)->getMoves().size() << " moves!" << endl;
+	for (int i = 2; i <= pokeList->numPokes(); i++)
+		if (!pokeList->pokemonAtID(i)->isDisabled())
+			if (maxMoveNum < pokeList->pokemonAtID(i)->getMoves().size()) 
 				maxMoveNum = pokeList->pokemonAtID(i)->getMoves().size();
-			}
-		}
-	}
+
+	battleOutcomeIncrement = pokeList->numPokes() * maxMoveNum;
+	battleOutcome = new unsigned char[pow(battleOutcomeIncrement, 2)];
 
 	seedSave.open("data/seedData.txt", ios::out);
 
@@ -46,7 +44,7 @@ seeds::seeds(Pokemons* pokeList, Moves* moveList, bool load, bool battleOutput, 
 				row.push_back(word);
 			}
 
-			seedList.push_back(pokemonSeed(moveList, pokeList, stoi(row[0]), stoi(row[1]), stoi(row[2]), stoi(row[3]), stoi(row[4])));
+			//seedList.push_back(pokemonSeed(moveList, pokeList, stoi(row[0]), stoi(row[1]), stoi(row[2]), stoi(row[3]), stoi(row[4])));
 		}
 		std::cout << seedList.size() << " competitors!" << endl;
 		return;
@@ -55,16 +53,13 @@ seeds::seeds(Pokemons* pokeList, Moves* moveList, bool load, bool battleOutput, 
 	for (int i = 1; i <= pokeList->numPokes(); i++) {
 		if (!pokeList->pokemonAtID(i)->isDisabled()) {
 			vector<int> temp = pokeList->pokemonAtID(i)->getMoves();
-			for (auto& element : temp) {
-				if (moves == 2) {
-					for (auto& element2 : temp) {
-						if (!moveList->FindID(element)->isDisabled() && !moveList->FindID(element2)->isDisabled() && element != element2)
-							seedList.push_back(pokemonSeed(moveList, pokeList, i, element, element2));
-					}
-				}
-				if (moves == 1) {
-					seedList.push_back(pokemonSeed(moveList, pokeList, i, element));
-				}
+			for (int j = 0; j < temp.size(); j++) {
+				//if (moves == 2)
+					//for (auto& element2 : temp)
+						//if (!moveList->FindID(temp.at(j))->isDisabled() && !moveList->FindID(element2)->isDisabled() && j != element2)
+							//seedList.push_back(pokemonSeed(moveList, pokeList, i, temp.at(j), element2));
+				if (moves == 1 && !moveList->FindID(temp.at(j))->isDisabled())
+					seedList.push_back(pokemonSeed(moveList, pokeList, i, temp.at(j), j));
 			}
 		}
 	}
@@ -198,6 +193,7 @@ void seeds::battle(pokemonSeed* pokeA, pokemonSeed* pokeB) {
 		battleResult += temp.getResult();
 		if (battleResult == bestOfNum / 2 + 1) {
 			for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) {
+				battleOutcome[(pokeA->GetPoke()->getID() - 1) * battleOutcomeIncrement * maxMoveNum + pokeA->GetMoveIndex(0) * battleOutcomeIncrement + (pokeB->GetPoke()->getID() - 1) * maxMoveNum + pokeB->GetMoveIndex(0)] = 1;
 				pokeA->AddWin();
 				pokeB->AddLose();
 			}
@@ -205,6 +201,7 @@ void seeds::battle(pokemonSeed* pokeA, pokemonSeed* pokeB) {
 		}
 		if (battleResult == -(bestOfNum / 2 + 1)) {
 			for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) {
+				battleOutcome[(pokeA->GetPoke()->getID() - 1) * battleOutcomeIncrement * maxMoveNum + pokeA->GetMoveIndex(0) * battleOutcomeIncrement + (pokeB->GetPoke()->getID() - 1) * maxMoveNum + pokeB->GetMoveIndex(0)] = 0;
 				pokeA->AddLose();
 				pokeB->AddWin();
 			}
@@ -213,18 +210,21 @@ void seeds::battle(pokemonSeed* pokeA, pokemonSeed* pokeB) {
 	}
 	if (battleResult > 0) {
 		for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) {
+			battleOutcome[(pokeA->GetPoke()->getID() - 1) * battleOutcomeIncrement * maxMoveNum + pokeA->GetMoveIndex(0) * battleOutcomeIncrement + (pokeB->GetPoke()->getID() - 1) * maxMoveNum + pokeB->GetMoveIndex(0)] = 1;
 			pokeA->AddWin();
 			pokeB->AddLose();
 		}
 	}
 	else if (battleResult == 0) {
 		for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) {
+			battleOutcome[(pokeA->GetPoke()->getID() - 1) * battleOutcomeIncrement * maxMoveNum + pokeA->GetMoveIndex(0) * battleOutcomeIncrement + (pokeB->GetPoke()->getID() - 1) * maxMoveNum + pokeB->GetMoveIndex(0)] = 0;
 			pokeA->AddLose();
 			pokeB->AddWin();
 		}
 	}
 	else if (battleResult < 0) {
 		for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) {
+			battleOutcome[(pokeA->GetPoke()->getID() - 1) * battleOutcomeIncrement * maxMoveNum + pokeA->GetMoveIndex(0) * battleOutcomeIncrement + (pokeB->GetPoke()->getID() - 1) * maxMoveNum + pokeB->GetMoveIndex(0)] = 2;
 			pokeA->AddDraw();
 			pokeB->AddDraw();
 		}
@@ -253,7 +253,7 @@ void seeds::listID(int id) {
 	}
 }
 
-int seeds::GetSize() {
+int seeds::size() {
 	return seedList.size();
 }
 
