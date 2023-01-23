@@ -35,6 +35,7 @@ public:
 	void Extinct();
 
 	void battle(pokemonSeed* pokeA, pokemonSeed* pokeB);
+	void roundrobin();
 	void top100();
 	void showStrongest();
 	void listID(int id);

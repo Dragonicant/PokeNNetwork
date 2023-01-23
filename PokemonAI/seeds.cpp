@@ -69,46 +69,38 @@ seeds::~seeds() {
 }
 
 void seeds::simulate() {
-	if(output)
-		std::cout << seedList.size() << " competitors!" << endl;
-
 	int progressN[100];
 	int progressCounter = 0;
 	for (int i = 1; i <= 100; i++) {
 		progressN[i - 1] = (seedList.size() * (seedList.size() + 1)) / 200 * i;
 	}
 
-
-		for (int i = 0; i < seedList.size(); i++) {
-			#pragma omp parallel for
-			for (int j = 0; j < seedList.size() - i; j++) {
-				battle(&seedList[i], &seedList[j + i]);
-			}
-			if (progressCounter <= 99 && seedList.size() >= 1000 && output) {
-				if (i * (seedList.size() + 1) - i * (i + 1) / 2 >= progressN[progressCounter]) {
-					std::cout << progressCounter << "% ";
-					if (progressCounter % 10 == 9)
-						std::cout << endl;
-					progressCounter++;
-				}
+	for (int i = 0; i < seedList.size(); i++) {
+		#pragma omp parallel for
+		for (int j = 0; j < seedList.size() - i; j++) {
+			battle(&seedList[i], &seedList[j + i]);
+		}
+		if (progressCounter <= 99 && seedList.size() >= 1000 && output) {
+			if (i * (seedList.size() + 1) - i * (i + 1) / 2 >= progressN[progressCounter]) {
+				std::cout << progressCounter << "% ";
+				if (progressCounter % 10 == 9)
+					std::cout << endl;
+				progressCounter++;
 			}
 		}
-		if(output)
-			std::cout << endl;
+	}
+	if(output)
+		std::cout << endl;
 
-	quickSort(seedList, 0, seedList.size() - 1);
-
-	std::reverse(seedList.begin(), seedList.end());
-
-	strongest.push_back(seedList[0]);
-
-	for (int i = 0; i < seedList.size(); i++) {
+	/*for (int i = 0; i < seedList.size(); i++) {
 		seedSave << seedList.at(i).GetPoke()->getID() << "," << seedList.at(i).GetMove(0)->getID() << "," << seedList.at(i).GetWin() << "," << seedList.at(i).GetDraw() << "," << seedList.at(i).GetLose() << endl;
 	}
-	seedSave << "BREAK" << endl;
+	seedSave << "BREAK" << endl;*/
 }
 void seeds::generate() {
-	simulate();
+	if (output)
+		std::cout << seedList.size() << " competitors!" << endl;
+	roundrobin();
 	if (output)
 		top100();
 	int n = seedList.size() / 4;
@@ -122,39 +114,21 @@ void seeds::generate() {
 		if (seedList[i].GetPower() < 1)
 			seedList.erase(seedList.begin() + i);
 	}
-	/*// give top 25 1 power
-	for (int i = 0; i < 25; i++) {
-		seedList[i].AddPower();
-	}
-	// give top 10 1 power
-	for (int i = 0; i < 10; i++) {
-		seedList[i].AddPower();
-	}
-	// give top 5 1 power
-	for (int i = 0; i < 5; i++) {
-		seedList[i].AddPower();
-	}*/
 	//reset WLD of every seed
-	for (int i = 0; i < seedList.size(); i++) {
+	for (int i = 0; i < seedList.size(); i++) 
 		seedList[i].ClearWDL();
-	}
 	Extinct();
 	generation++;
 }
 void seeds::Extinct() {
 	bool firstExtinctPoke = true;
 	bool firstExtinctMove = true;
-	for (int i = 1; i <= pokeList->numPokes(); i++) {
-		if (!pokeList->pokemonAtID(i)->isExtinct()) {
+	for (int i = 1; i <= pokeList->numPokes(); i++) 
+		if (!pokeList->pokemonAtID(i)->isExtinct()) 
 			pokeList->pokemonAtID(i)->setExtinct(generation);
-
-		}
-	}
-	for (int i = 1; i <= moveList->getVector().size(); i++) {
-		if (!moveList->FindID(i)->isExtinct()) {
+	for (int i = 1; i <= moveList->getVector().size(); i++) 
+		if (!moveList->FindID(i)->isExtinct()) 
 			moveList->FindID(i)->setExtinct(generation);
-		}
-	}
 	for (auto& element:seedList) {
 		element.GetPoke()->unExtinct();
 		element.GetMove(0)->unExtinct();
@@ -192,43 +166,56 @@ void seeds::battle(pokemonSeed* pokeA, pokemonSeed* pokeB) {
 		Battle temp = Battle(pokeA, pokeB, battleOutput);
 		battleResult += temp.getResult();
 		if (battleResult == bestOfNum / 2 + 1) {
-			for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) {
+			for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) 
 				battleOutcome[(pokeA->GetPoke()->getID() - 1) * battleOutcomeIncrement * maxMoveNum + pokeA->GetMoveIndex(0) * battleOutcomeIncrement + (pokeB->GetPoke()->getID() - 1) * maxMoveNum + pokeB->GetMoveIndex(0)] = 1;
-				pokeA->AddWin();
-				pokeB->AddLose();
-			}
 			return;
 		}
 		if (battleResult == -(bestOfNum / 2 + 1)) {
-			for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) {
+			for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++)
 				battleOutcome[(pokeA->GetPoke()->getID() - 1) * battleOutcomeIncrement * maxMoveNum + pokeA->GetMoveIndex(0) * battleOutcomeIncrement + (pokeB->GetPoke()->getID() - 1) * maxMoveNum + pokeB->GetMoveIndex(0)] = 0;
-				pokeA->AddLose();
-				pokeB->AddWin();
-			}
 			return;
 		}
 	}
-	if (battleResult > 0) {
-		for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) {
+	if (battleResult > 0)
+		for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) 
 			battleOutcome[(pokeA->GetPoke()->getID() - 1) * battleOutcomeIncrement * maxMoveNum + pokeA->GetMoveIndex(0) * battleOutcomeIncrement + (pokeB->GetPoke()->getID() - 1) * maxMoveNum + pokeB->GetMoveIndex(0)] = 1;
-			pokeA->AddWin();
-			pokeB->AddLose();
-		}
-	}
-	else if (battleResult == 0) {
-		for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) {
+	else if (battleResult == 0)
+		for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) 
 			battleOutcome[(pokeA->GetPoke()->getID() - 1) * battleOutcomeIncrement * maxMoveNum + pokeA->GetMoveIndex(0) * battleOutcomeIncrement + (pokeB->GetPoke()->getID() - 1) * maxMoveNum + pokeB->GetMoveIndex(0)] = 0;
-			pokeA->AddLose();
-			pokeB->AddWin();
-		}
-	}
-	else if (battleResult < 0) {
-		for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) {
+	else if (battleResult < 0)
+		for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) 
 			battleOutcome[(pokeA->GetPoke()->getID() - 1) * battleOutcomeIncrement * maxMoveNum + pokeA->GetMoveIndex(0) * battleOutcomeIncrement + (pokeB->GetPoke()->getID() - 1) * maxMoveNum + pokeB->GetMoveIndex(0)] = 2;
-			pokeA->AddDraw();
-			pokeB->AddDraw();
+}
+void seeds::roundrobin() {
+	for (int i = 0; i < seedList.size(); i++) {
+		#pragma omp parallel for
+		for (int j = 0; j < seedList.size() - i; j++) {
+			pokemonSeed* pokeA = &seedList[i];
+			pokemonSeed* pokeB = &seedList[j + i];
+			int battleResult = battleOutcome[(pokeA->GetPoke()->getID() - 1) * battleOutcomeIncrement * maxMoveNum + pokeA->GetMoveIndex(0) * battleOutcomeIncrement + (pokeB->GetPoke()->getID() - 1) * maxMoveNum + pokeB->GetMoveIndex(0)];
+			if (battleResult == 1) 
+				for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) {
+					pokeA->AddWin();
+					pokeB->AddLose();
+				}
+			else if (battleResult == 0) 
+				for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) {
+					pokeA->AddLose();
+					pokeB->AddWin();
+				}
+			else if (battleResult == 2) 
+				for (int i = 0; i < max(pokeA->GetPower(), pokeB->GetPower()); i++) {
+					pokeA->AddDraw();
+					pokeB->AddDraw();
+				}
 		}
 	}
+
+	quickSort(seedList, 0, seedList.size() - 1);
+
+	std::reverse(seedList.begin(), seedList.end());
+
+	strongest.push_back(seedList[0]);
 }
 
 void seeds::top100() {
